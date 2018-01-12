@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function init {
 	wall_dir=~/Pictures/Wallpaper
@@ -17,7 +17,32 @@ function get_file {
 	curl $a --output $file_name
 }
 
-function set_wall {
+function set_wall_linux {
 	mv "`pwd`/$file_name" "$wall_file"
-	feh --bg-scale $wall_file
+	DISPLAY=:0 feh --bg-scale $wall_file
 }
+
+#to be done when I have access to a Mac
+function set_wall_mac {
+	echo "Mac support coming soon!"
+	osascript <<EOD
+		tell application "System Events"
+			tell current desktop
+				set picture rotation to 0
+				set picture to file       -- incomplete
+			end tell
+		end tell
+EOD
+}
+
+function set_wall {
+	case "$OSTYPE" in
+		linux*)		set_wall_linux;;
+		darwin*)	set_wall_mac;;
+		*)			echo "Unsupported OS";;
+	esac
+}
+
+init
+get_file
+set_wall
