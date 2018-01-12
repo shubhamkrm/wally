@@ -8,7 +8,7 @@ function init {
 }
 
 function get_file {
-	a=`curl "https://api.unsplash.com/photos/random/?client_id=$client_id" | jq \
+	a=`curl "https://api.unsplash.com/photos/random/?orientation=landscape&client_id=$client_id" | jq \
 	.urls.full` 
 	#remove trailing " from url
 	a="${a%\"}"
