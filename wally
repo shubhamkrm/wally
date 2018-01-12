@@ -1,0 +1,15 @@
+#!/bin/sh
+
+wall_dir=~/Pictures/Wallpaper
+file_name="`date +%s`.jpg"
+wall_file="$wall_dir/wallpaper.jpg"
+client_id="cd9c86576780cb44370a73dede11f761485dd3fa03fe3ac3582be37adf29e431"
+a=`curl "https://api.unsplash.com/photos/random/?client_id=$client_id" | jq \
+.urls.full` 
+#remove trailing " from url
+a="${a%\"}"
+#remove beginning " from url
+a="${a#\"}"
+curl $a --output $file_name
+mv "`pwd`/$file_name" "$wall_file"
+feh --bg-scale $wall_file
